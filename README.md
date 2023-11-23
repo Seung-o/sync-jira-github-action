@@ -11,7 +11,7 @@ When we receive a PR event we try to:
   - And there is at least one reviewer -> change ticket status to "In Review"
 - When a there is `review_requested` on the PR -> change ticket status to "In Review"
 - When a review is `submitted` and `approved` -> change ticket status to "In Test"
-- When the PR is `closed` and `merged` on `master` branch -> change ticket status to "Resolved"
+- When the PR is `closed` and `merged` on `release` branch -> change ticket status to "Resolved"
 
 If there is a status change to do:
 

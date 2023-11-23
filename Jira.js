@@ -45,11 +45,7 @@ class Jira {
         }
       });
     } catch (error) {
-      if (error && error.res && error.res.status === 404) {
-        return;
-      }
-
-      throw error;
+      return [];
     }
   }
 

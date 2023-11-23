@@ -40,7 +40,7 @@ async function run() {
     const labels = pull_request.labels.map(x => x.name);
     if (
       labels.includes('common-branch') &&
-      !(payload.action === 'closed' && pull_request.merged && pull_request.base.ref === 'master')
+      !(payload.action === 'closed' && pull_request.merged && pull_request.base.ref === 'release')
     ) {
       core.info('Detected common-branch label - not performing any change');
       return;
@@ -62,7 +62,7 @@ async function run() {
         }
         break;
       case 'closed':
-        if (pull_request.merged && pull_request.base.ref === 'master') {
+        if (pull_request.merged && pull_request.base.ref === 'release') {
           newStatus = 'Resolved';
         }
         break;
