@@ -134,7 +134,7 @@ async function filterUpdatableJiraTickets(tickets) {
     core.info('Fetch JIRA tickets details...');
     const jiraIssues = await Promise.all(tickets.map(ticket => jira.getIssue(ticket)));
 
-    console.log('jiraIssues: ' + jiraIssues.join(', '));
+    console.debug('jiraIssues: ' + jiraIssues.join(', '));
 
     const filteredJiraIssues = jiraIssues
       .map(issue => ({
@@ -155,8 +155,8 @@ async function filterUpdatableJiraTickets(tickets) {
     );
     return filteredJiraIssues;
   } catch (err) {
-    console.log('Fail in filterUpdatableJiraTickets');
-    console.log(err);
+    core.info('Fail in filterUpdatableJiraTickets');
+    core.info(err);
     return [];
   }
 }
@@ -174,22 +174,25 @@ function transitionJiraTickets(jiraTickets, newStatus) {
   core.info(`Start transitioning ${jiraTickets.length} JIRA tickets...`);
   return Promise.all(
     jiraTickets.map(ticket =>
-      jira.transitionIssue(ticket.id, { transition: { id: transitionsMap[newStatus] } }).then(
-        () => {
-          core.info(
-            `   - ${ticket.key} transition from status "${ticket.status.name}" to "${newStatus}" SUCCESSFUL`
-          );
+      jira
+        .transitionIssue(ticket.id, { transition: { id: transitionsMap[newStatus] } })
+        .then(
+          () => {
+            core.info(
+              `   - ${ticket.key} transition from status "${ticket.status.name}" to "${newStatus}" SUCCESSFUL`
+            );
 
-          if (newStatus === 'In Progress' && ticket.assignee) {
-            assignJiraTicket(ticket, ticket.assignee);
+            if (newStatus === 'In Progress' && ticket.assignee) {
+              assignJiraTicket(ticket, ticket.assignee);
+            }
+          },
+          () => {
+            core.warning(
+              `   - ${ticket.key} transition from status "${ticket.status.name}" to "${newStatus}" FAILED`
+            );
           }
-        },
-        () => {
-          core.warning(
-            `   - ${ticket.key} transition from status "${ticket.status.name}" to "${newStatus}" FAILED`
-          );
-        }
-      )
+        )
+        .catch(err => console.debug(err))
     )
   );
 }
