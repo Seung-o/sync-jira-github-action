@@ -1,38 +1,38 @@
-name: "Synchronize JIRA Tickets"
-description: "Transition JIRA tickets based on the pull request status"
+name: 'Synchronize JIRA Tickets'
+description: 'Transition JIRA tickets based on the pull request status'
 inputs:
   github-token:
-    description: "Secret required to access GitHub API"
+    description: 'Secret required to access GitHub API'
     required: true
   jira-field-inprogress:
     description: "ID of the status field 'In Progress' of the JIRA project. Default value relates to 'Default Agile SonarSource Workflow V7'."
     required: true
-    default: 4
+    default: 3
   jira-field-inreview:
     description: "ID of the status field 'In Review' of the JIRA project. Default value relates to 'Default Agile SonarSource Workflow V7'."
     required: true
-    default: 721
+    default: 10133
   jira-field-intest:
     description: "ID of the status field 'In Test' of the JIRA project. Default value relates to 'Default Agile SonarSource Workflow V7'."
     required: true
-    default: 731
+    default: 10134
   jira-field-resolved:
     description: "ID of the status field 'Resolved' of the JIRA project. Default value relates to 'Default Agile SonarSource Workflow V7'."
     required: true
-    default: 5
+    default: 10135
   jira-login:
-    description: "Login with the read permission on the project specified by jira-project"
+    description: 'Login with the read permission on the project specified by jira-project'
     required: true
   jira-password:
-    description: "The password of jira-login"
+    description: 'The password of jira-login'
     required: true
   jira-project:
     description: "Key of the JIRA project, used as a ticket prefix, for example 'SONAR'."
     required: true
   jira-url:
-    description: "Base URL to JIRA"
+    description: 'Base URL to JIRA'
     required: true
-    default: "https://sonarsource.atlassian.net"
+    default: 'https://sonarsource.atlassian.net'
 runs:
-  using: "node16"
-  main: "dist/index.js"
+  using: 'node16'
+  main: 'dist/index.js'

@@ -130,26 +130,35 @@ async function fetchJiraTickets() {
 }
 
 async function filterUpdatableJiraTickets(tickets) {
-  core.info('Fetch JIRA tickets details...');
-  const jiraIssues = await Promise.all(tickets.map(ticket => jira.getIssue(ticket)));
-  const filteredJiraIssues = jiraIssues
-    .map(issue => ({
-      assignee: issue.fields.assignee && issue.fields.assignee.name,
-      id: issue.id,
-      key: issue.key,
-      status: issue.fields.status,
-      subtasks: issue.fields.subtasks
-    }))
-    .filter(issues => issues.subtasks.length <= 0);
+  try {
+    core.info('Fetch JIRA tickets details...');
+    const jiraIssues = await Promise.all(tickets.map(ticket => jira.getIssue(ticket)));
 
-  core.info(
-    `Fetch tickets details: ${jiraIssues.length} jira tickets found, and ${filteredJiraIssues.length} without subtasks`
-  );
-  core.info(
-    'Jira tickets without sub-tasks: ' +
-      filteredJiraIssues.map(ticket => `${ticket.key} [${ticket.status.name}]`).join(', ')
-  );
-  return filteredJiraIssues;
+    console.log('jiraIssues: ' + jiraIssues.join(', '));
+
+    const filteredJiraIssues = jiraIssues
+      .map(issue => ({
+        assignee: issue.fields.assignee && issue.fields.assignee.name,
+        id: issue.id,
+        key: issue.key,
+        status: issue.fields.status,
+        subtasks: issue.fields.subtasks
+      }))
+      .filter(issues => issues.subtasks.length <= 0);
+
+    core.info(
+      `Fetch tickets details: ${jiraIssues.length} jira tickets found, and ${filteredJiraIssues.length} without subtasks`
+    );
+    core.info(
+      'Jira tickets without sub-tasks: ' +
+        filteredJiraIssues.map(ticket => `${ticket.key} [${ticket.status.name}]`).join(', ')
+    );
+    return filteredJiraIssues;
+  } catch (err) {
+    console.log('Fail in filterUpdatableJiraTickets');
+    console.log(err);
+    return [];
+  }
 }
 
 // These magic numbers are the transition id's that needs to be done on the ticket to reach the status used as the key

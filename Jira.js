@@ -34,6 +34,7 @@ class Jira {
   }
 
   async getIssue(issueId, query = {}) {
+    console.log('issueId: ' + issueId);
     const { fields = [], expand = [] } = query;
 
     try {
