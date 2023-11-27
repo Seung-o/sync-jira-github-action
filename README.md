@@ -40,7 +40,7 @@ jobs:
     name: Synchronize JIRA tickets of PR
     steps:
       - name: Synchronized JIRA tickets based on PR status
-        uses: SonarSource/sync-jira-github-action@master
+        uses: Seung-o/sync-jira-github-action@master
         with:
           github-token: ${{ secrets.GITHUB_ORG_TOKEN }}
           jira-login: ${{ fromJSON(steps.secrets.outputs.vault).JIRA_LOGIN }}
@@ -63,7 +63,7 @@ It's possible to test and validate changes before merging to master by using the
 
 - Build this action using `npm run build`, commit it and push it on your branch
 - Create a branch on sonarcloud-core or any other repo that use this action
-- Update this action's yaml file on your new branch to use `SonarSource/sync-jira-github-action@your-branch-name` instead of `SonarSource/sync-jira-github-action@master`
+- Update this action's yaml file on your new branch to use `Seung-o/sync-jira-github-action@your-branch-name` instead of `Seung-o/sync-jira-github-action@master`
 - Also create an empty commit starting by a ticket number that you want to use to test the action
 - Push everything on your branch and create a PR for it
 - The new github action should run and you should be able to see the logs in the "Actions" tab of the PR

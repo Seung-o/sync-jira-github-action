@@ -2,7 +2,7 @@
   "name": "synchronize-jira",
   "version": "1.0.0",
   "description": "Transition jira ticket based on the PR status",
-  "repository": "SonarSource/sonarcloud-core",
+  "repository": "Seung-o/sonarcloud-core",
   "private": true,
   "main": "index.js",
   "scripts": {

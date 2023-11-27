@@ -32,7 +32,7 @@ inputs:
   jira-url:
     description: 'Base URL to JIRA'
     required: true
-    default: 'https://sonarsource.atlassian.net'
+    default: 'https://actionpower.atlassian.net'
 runs:
   using: 'node16'
   main: 'dist/index.js'
